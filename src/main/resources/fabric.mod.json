@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "lensify",
+  "version": "${version}",
+  "name": "Lensify",
+  "description": "A smooth, lightweight and configurable zoom mod.",
+  "authors": ["Cozynxis"],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/lensify/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.cozynxis.lensify.LensifyClient"
+    ],
+    "modmenu": [
+      "dev.cozynxis.lensify.compat.LensifyModMenuApi"
+    ]
+  },
+  "mixins": [
+    "lensify.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "minecraft": "~26.2",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}
