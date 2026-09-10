@@ -22,7 +22,6 @@ public final class LensifyScreen extends Screen {
         int y = this.height / 2 - 100;
         int w = 150;
         int h = 20;
-
         LensifyConfig cfg = ConfigManager.get();
 
         addRenderableWidget(Button.builder(label("Enabled", cfg.enabled), b -> {
@@ -38,26 +37,22 @@ public final class LensifyScreen extends Screen {
         }).bounds(right, y, w, h).build());
 
         y += 24;
-
         addRenderableWidget(Button.builder(label("Smooth", cfg.smoothZoom), b -> {
             cfg.smoothZoom = !cfg.smoothZoom;
             b.setMessage(label("Smooth", cfg.smoothZoom));
         }).bounds(left, y, w, h).build());
-
         addRenderableWidget(Button.builder(label("Scroll zoom", cfg.scrollZoom), b -> {
             cfg.scrollZoom = !cfg.scrollZoom;
             b.setMessage(label("Scroll zoom", cfg.scrollZoom));
         }).bounds(right, y, w, h).build());
 
         y += 24;
-
         addRenderableWidget(Button.builder(zoomText(cfg), b -> {
             cfg.zoomFactor += 1.0;
             if (cfg.zoomFactor > 10.0) cfg.zoomFactor = 2.0;
             ZoomController.syncConfiguredFactor();
             b.setMessage(zoomText(cfg));
         }).bounds(left, y, w, h).build());
-
         addRenderableWidget(Button.builder(speedText(cfg), b -> {
             cfg.smoothSpeed += 2.0;
             if (cfg.smoothSpeed > 18.0) cfg.smoothSpeed = 4.0;
@@ -65,44 +60,38 @@ public final class LensifyScreen extends Screen {
         }).bounds(right, y, w, h).build());
 
         y += 24;
-
         addRenderableWidget(Button.builder(label("Sensitivity scaling", cfg.scaleSensitivity), b -> {
             cfg.scaleSensitivity = !cfg.scaleSensitivity;
             b.setMessage(label("Sensitivity scaling", cfg.scaleSensitivity));
         }).bounds(left, y, w, h).build());
-
         addRenderableWidget(Button.builder(Component.literal("Preset: Soft"), b -> {
             ConfigManager.applyPreset("soft");
             rebuildWidgets();
         }).bounds(right, y, w, h).build());
 
         y += 24;
-
         addRenderableWidget(Button.builder(Component.literal("Preset: Balanced"), b -> {
             ConfigManager.applyPreset("balanced");
             rebuildWidgets();
         }).bounds(left, y, w, h).build());
-
         addRenderableWidget(Button.builder(Component.literal("Preset: Deep"), b -> {
             ConfigManager.applyPreset("deep");
             rebuildWidgets();
         }).bounds(right, y, w, h).build());
 
         y += 34;
-
         addRenderableWidget(Button.builder(Component.literal("Reset"), b -> {
             ConfigManager.resetBalanced();
             ZoomController.stop();
             rebuildWidgets();
         }).bounds(left, y, w, h).build());
-
         addRenderableWidget(Button.builder(Component.literal("Save & Done"), b -> onClose())
                 .bounds(right, y, w, h).build());
     }
 
-    private void rebuildWidgets() {
-        clearWidgets();
-        init();
+    @Override
+    protected void rebuildWidgets() {
+        super.rebuildWidgets();
     }
 
     private static Component label(String name, boolean value) {
@@ -125,7 +114,7 @@ public final class LensifyScreen extends Screen {
     public void onClose() {
         ConfigManager.save();
         if (this.minecraft != null) {
-            this.minecraft.setScreen(parent);
+            this.minecraft.gui.setScreen(parent);
         }
     }
 }
