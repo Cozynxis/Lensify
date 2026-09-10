@@ -1,0 +1,35 @@
+name: Build Lensify
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Set up Gradle 9.5.1
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.5.1'
+
+      - name: Build Lensify
+        run: gradle build --stacktrace
+
+      - name: Upload playable JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lensify-1.0.0-Beta
+          path: |
+            build/libs/lensify-*.jar
+            !build/libs/*-sources.jar
